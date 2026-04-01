@@ -1,6 +1,19 @@
 FROM jenkins/jenkins:lts-jdk21
+
 USER root
+
 RUN apt-get update && \
-    apt-get install -y docker.io && \
+    apt-get install -y docker.io curl unzip && \
+    ARCH="$(dpkg --print-architecture)" && \
+    if [ "$ARCH" = "arm64" ]; then AWS_ARCH="aarch64"; else AWS_ARCH="x86_64"; fi && \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-${AWS_ARCH}.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install && \
+    K_ARCH="$(dpkg --print-architecture)" && \
+    if [ "$K_ARCH" = "arm64" ]; then K_BIN="arm64"; else K_BIN="amd64"; fi && \
+    curl -LO "https://dl.k8s.io/release/v1.30.0/bin/linux/${K_BIN}/kubectl" && \
+    install -m 0755 kubectl /usr/local/bin/kubectl && \
+    rm -rf aws awscliv2.zip kubectl && \
     apt-get clean
+
 USER jenkins

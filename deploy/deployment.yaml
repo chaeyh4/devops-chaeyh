@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-chaeyh
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devops-chaeyh
+  template:
+    metadata:
+      labels:
+        app: devops-chaeyh
+    spec:
+      imagePullSecrets:
+        - name: harbor-secret
+      containers:
+        - name: devops-chaeyh
+          image: __IMAGE__
+          ports:
+            - containerPort: 80

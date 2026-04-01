@@ -12,7 +12,7 @@ pipeline {
 
         AWS_REGION         = 'ap-northeast-2'
         EKS_CLUSTER_NAME   = 'skala-2025'
-        K8S_NAMESPACE      = 'skala3-ai2'
+        K8S_NAMESPACE      = 'class-2'
 
         HARBOR_CREDENTIALS = 'harbor-creds'
         AWS_CREDENTIALS    = 'aws-access-key-cred'
